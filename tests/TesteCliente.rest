@@ -1,0 +1,31 @@
+### Verbo GET - listar todos
+GET http://localhost:8000/cliente/ HTTP/1.1
+
+### Verbo GET - listar um
+GET http://localhost:8000/cliente/10 HTTP/1.1
+
+### Verbo POST - adicionar
+POST http://localhost:8000/cliente/ HTTP/1.1
+content-type: application/json
+
+{
+    "nome" : "Luciano3333 Coelho",
+    "matricula" : "lu33312353",
+    "cpf" : "1",
+    "telefone" : "tel2383333738",
+    "grupo" : 2,
+    "senha" : "ee29eb4a8725678278ac4320e7"
+}
+
+### Verbo PUT - atualiza
+PUT http://127.0.0.1:8000/cliente/2 HTTP/1.1
+content-type: application/json
+
+{
+    "nome" : "Luciano Coelho",
+    "cpf" : "1",
+    "telefone" : "tel2383738",
+}
+
+### Verbo DELETE - excluirpython .\scr\main.py
+DELETE http://127.0.0.1:8000/cliente/3 HTTP/1.1
