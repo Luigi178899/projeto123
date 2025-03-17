@@ -3,6 +3,7 @@ from settings import HOST, PORT, RELOAD
 import uvicorn
 
 # import das classes com as rotas/endpoints
+import security
 from app import FuncionarioDAO
 from app import ClienteDAO
 from app import ProdutoDAO

@@ -6,8 +6,13 @@ from fastapi import APIRouter
 from domain.entities.Funcionario import Funcionario
 router = APIRouter()
 
+# import da segurança
+from typing import Annotated
+from fastapi import Depends
+from security import get_current_active_user, User
+
 # Criar as rotas/endpoints: GET, POST, PUT, DELETE
-@router.get("/funcionario/", tags=["Funcionário"])
+@router.get("/funcionario/", tags=["Funcionário"], dependencies=[Depends(get_current_active_user)])
 async def get_funcionario():
     try:
         session = db.Session()
@@ -20,7 +25,7 @@ async def get_funcionario():
     finally:
         session.close()
 
-@router.get("/funcionario/{id}", tags=["Funcionário"])
+@router.get("/funcionario/{id}", tags=["Funcionário"], dependencies=[Depends(get_current_active_user)])
 async def get_funcionario(id: int):
     try:
         session = db.Session()
@@ -32,7 +37,7 @@ async def get_funcionario(id: int):
     finally:
         session.close()
 
-@router.post("/funcionario/", tags=["Funcionário"])
+@router.post("/funcionario/", tags=["Funcionário"] ,dependencies=[Depends(get_current_active_user)])
 async def post_funcionario(corpo: Funcionario):
     try:
         session = db.Session()
@@ -49,7 +54,7 @@ async def post_funcionario(corpo: Funcionario):
     finally:
         session.close()
 
-@router.put("/funcionario/{id}", tags=["Funcionário"])
+@router.put("/funcionario/{id}", tags=["Funcionário"] , dependencies=[Depends(get_current_active_user)])
 async def put_funcionario(id: int, corpo: Funcionario):
     try:
         session = db.Session()
@@ -72,7 +77,7 @@ async def put_funcionario(id: int, corpo: Funcionario):
     finally:
         session.close()
 
-@router.delete("/funcionario/{id}", tags=["Funcionário"])
+@router.delete("/funcionario/{id}", tags=["Funcionário"], dependencies=[Depends(get_current_active_user)])
 async def delete_funcionario(id: int):
     try:
         session = db.Session()
@@ -88,7 +93,7 @@ async def delete_funcionario(id: int):
         session.close()
 
 # valida o cpf e senha informado pelo usuário
-@router.post("/funcionario/login/", tags=["Funcionário - Login"])
+@router.post("/funcionario/login/", tags=["Funcionário - Login"] , dependencies=[Depends(get_current_active_user)])
 async def login_funcionario(corpo: Funcionario):
     try:
         session = db.Session()
@@ -102,7 +107,7 @@ async def login_funcionario(corpo: Funcionario):
         session.close()
 
 # verifica se o CPF informado já esta cadastrado, retornado os dados atuais caso já esteja
-@router.get("/funcionario/cpf/{cpf}", tags=["Funcionário - Valida CPF"])
+@router.get("/funcionario/cpf/{cpf}", tags=["Funcionário - Valida CPF"], dependencies=[Depends(get_current_active_user)])
 async def cpf_funcionario(cpf: str):
     try:
         session = db.Session()

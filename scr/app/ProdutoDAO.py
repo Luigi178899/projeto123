@@ -5,9 +5,16 @@ from infra.orm.ProdutoModel import ProdutoDB
 from fastapi import APIRouter
 from domain.entities.Produto import Produto
 router = APIRouter()
+#Luigi Tomiello
+
+# import da segurança
+from typing import Annotated
+from fastapi import Depends
+from security import get_current_active_user, User
+
 
 # Criar as rotas/endpoints: GET, POST, PUT, DELETE
-@router.get("/produto/", tags=["Produto"])
+@router.get("/produto/", tags=["Produto"] , dependencies=[Depends(get_current_active_user)])
 async def get_produto():
     try:
         session = db.Session()
@@ -20,7 +27,7 @@ async def get_produto():
     finally:
         session.close()
 
-@router.get("/produto/{id}", tags=["Produto"])
+@router.get("/produto/{id}", tags=["Produto"], dependencies=[Depends(get_current_active_user)])
 async def get_produto(id: int):
     try:
         session = db.Session()
@@ -32,7 +39,7 @@ async def get_produto(id: int):
     finally:
         session.close()
 
-@router.post("/produto/", tags=["Produto"])
+@router.post("/produto/", tags=["Produto"], dependencies=[Depends(get_current_active_user)])
 async def post_produto(corpo: Produto):
     try:
         session = db.Session()
@@ -49,7 +56,7 @@ async def post_produto(corpo: Produto):
     finally:
         session.close()
 
-@router.put("/produto/{id}", tags=["Produto"])
+@router.put("/produto/{id}", tags=["Produto"], dependencies=[Depends(get_current_active_user)])
 async def put_produto(id: int, corpo: Produto):
     try:
         session = db.Session()
@@ -69,7 +76,7 @@ async def put_produto(id: int, corpo: Produto):
     finally:
         session.close()
 
-@router.delete("/produto/{id}", tags=["Produto"])
+@router.delete("/produto/{id}", tags=["Produto"], dependencies=[Depends(get_current_active_user)])
 async def delete_produto(id: int):
     try:
         session = db.Session()

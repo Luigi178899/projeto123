@@ -1,5 +1,27 @@
+#@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhYmMiLCJleHAiOjE3NDIxNTYwNDl9.zjlIxzdekPLkQBaTXQxeufD9oXVO8-cOaDcaRS3a868
+
 ### Verbo GET - listar todos
-GET http://localhost:8000/cliente/ HTTP/1.1
+GET http://127.0.0.1:8000/cliente/ HTTP/1.1
+Authorization: Bearer {{token}}
+
+curl -X 'GET' 'http://127.0.0.1:8000/cliente/' \
+    -H 'accept: application/json' \
+    -H 'Authorization: Bearer {{token}}'
+
+### ao logar, gera um token que deve ser usado para acessar as rotas da API #Gerar novo Token
+curl    -X 'POST' 'http://127.0.0.1:8000/token' \
+        -H 'accept: application/json' \
+        -H 'Content-Type: application/x-www-form-urlencoded' \
+        -d 'username=abc&password=bolinhas'
+
+
+### token gerado
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhYmMiLCJleHAiOjE3NDIyNDk2NzV9.mX-IsFvp32BaMLxpbmLVfl2LdXDpxM4GZOahWm3neKc
+
+### teste token
+curl -X 'GET' 'http://127.0.0.1:8000/token/logado/' \
+    -H 'accept: application/json' \
+    -H 'Authorization: Bearer {{token}}'
 
 ### Verbo GET - listar um
 GET http://localhost:8000/cliente/10 HTTP/1.1
@@ -7,15 +29,17 @@ GET http://localhost:8000/cliente/10 HTTP/1.1
 ### Verbo POST - adicionar
 POST http://localhost:8000/cliente/ HTTP/1.1
 content-type: application/json
+Authorization: Bearer {{token}}
 
 {
-    "nome" : "Luciano3333 Coelho",
-    "matricula" : "lu33312353",
-    "cpf" : "1",
-    "telefone" : "tel2383333738",
+    "nome" : "Luigi tomiellooo",
+    "matricula" : "778888",
+    "cpf" : "89788899",
+    "telefone" : "1234567666",
     "grupo" : 2,
-    "senha" : "ee29eb4a8725678278ac4320e7"
+    "senha" : "ee29eb4a87256dddac4320e7"
 }
+#Estou com erro na estrutura de banco de produtos e clientes, vou perguntar sobre hoje na aula, mas funcionario e as outras funcionalidades estão ok, só deu bo de banco
 
 ### Verbo PUT - atualiza
 PUT http://127.0.0.1:8000/cliente/2 HTTP/1.1

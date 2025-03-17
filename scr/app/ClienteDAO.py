@@ -4,10 +4,16 @@ from infra.orm.ClienteModel import ClienteDB
 from fastapi import APIRouter
 from domain.entities.Cliente import Cliente
 router = APIRouter()
+#Luigi Tomiello
+# import da segurança
+from typing import Annotated
+from fastapi import Depends
+from security import get_current_active_user, User
+
 
 # Criar as rotas/endpoints: GET, POST, PUT, DELETE
-@router.get("/cliente/", tags=["Cliente"])
-async def get_Cliente():
+@router.get("/cliente/", tags=["Cliente"], dependencies=[Depends(get_current_active_user)])
+async def get_cliente():
     try:
         session = db.Session()
         # busca todos
@@ -19,8 +25,8 @@ async def get_Cliente():
     finally:
         session.close()
 
-@router.get("/cliente/{id}", tags=["Cliente"])
-async def get_Cliente(id: int):
+@router.get("/cliente/{id}", tags=["Cliente"], dependencies=[Depends(get_current_active_user)])
+async def get_cliente(id: int):
     try:
         session = db.Session()
         # busca um com filtro
@@ -31,8 +37,8 @@ async def get_Cliente(id: int):
     finally:
         session.close()
 
-@router.post("/cliente/", tags=["Cliente"])
-async def post_Cliente(corpo: Cliente):
+@router.post("/cliente/", tags=["Cliente"], dependencies=[Depends(get_current_active_user)])
+async def post_cliente(corpo: Cliente):
     try:
         session = db.Session()
         # cria um novo objeto com os dados da requisição
@@ -47,8 +53,8 @@ async def post_Cliente(corpo: Cliente):
     finally:
         session.close()
 
-@router.put("/cliente/{id}", tags=["Cliente"])
-async def put_Cliente(id: int, corpo: Cliente):
+@router.put("/cliente/{id}", tags=["Cliente"] , dependencies=[Depends(get_current_active_user)])
+async def put_cliente(id: int, corpo: Cliente):
     try:
         session = db.Session()
         # busca os dados atuais pelo id
@@ -67,8 +73,8 @@ async def put_Cliente(id: int, corpo: Cliente):
     finally:
         session.close()
 
-@router.delete("/cliente/{id}", tags=["Cliente"])
-async def delete_Cliente(id: int):
+@router.delete("/cliente/{id}", tags=["Cliente"], dependencies=[Depends(get_current_active_user)])
+async def delete_cliente(id: int):
     try:
         session = db.Session()
         # busca os dados atuais pelo id
@@ -83,7 +89,7 @@ async def delete_Cliente(id: int):
         session.close()
 
 # valida o cpf e senha informado pelo usuário
-@router.get("/cliente/cpf/{cpf}", tags=["Cliente - Valida CPF"])
+@router.get("/cliente/cpf/{cpf}", tags=["Cliente - Valida CPF"], dependencies=[Depends(get_current_active_user)])
 async def cpf_cliente(cpf: str):
     try:
         session = db.Session()
